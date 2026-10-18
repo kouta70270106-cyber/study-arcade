@@ -1,0 +1,304 @@
+/* 色はここにまとめる。黒板は昼も夜も同じ色なので、ダークモード用の切り替えは置かない */
+:root {
+  --wall: #e9e1cf;          /* 教室の壁 */
+  --wall-stripe: #ded4bd;
+  --frame: #8a5a32;         /* 黒板の木の枠 */
+  --frame-dark: #6b4325;
+  --board: #2e4a3c;         /* 黒板 */
+  --board-light: #3a5a49;
+  --chalk: #f4f1e8;         /* 白チョーク */
+  --chalk-sub: #c9d3c8;
+  --chalk-yellow: #f5dd7a;
+  --chalk-pink: #f3a6b5;
+  --paper: #fffdf6;         /* 貼り紙 */
+  --ink: #2f2a22;
+  --ink-sub: #756b5a;
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--wall);
+  /* 教室の壁の縦じま */
+  background-image: repeating-linear-gradient(
+    to right, transparent 0 46px, var(--wall-stripe) 46px 48px
+  );
+  color: var(--ink);
+  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+  line-height: 1.6;
+}
+
+.classroom {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 32px 16px 40px;
+}
+
+/* ── 黒板 ── */
+.blackboard {
+  position: relative;
+  padding: 32px 88px 64px 28px; /* 右は日付・日直の分あける */
+  border: 14px solid var(--frame);
+  border-radius: 6px;
+  background-color: var(--board);
+  /* チョークの消し跡のムラ */
+  background-image:
+    radial-gradient(ellipse 40% 25% at 20% 30%, rgba(255, 255, 255, 0.05), transparent),
+    radial-gradient(ellipse 35% 30% at 75% 60%, rgba(255, 255, 255, 0.04), transparent),
+    radial-gradient(ellipse 50% 20% at 50% 90%, rgba(255, 255, 255, 0.05), transparent);
+  box-shadow:
+    inset 0 0 0 2px var(--frame-dark),
+    inset 0 0 40px rgba(0, 0, 0, 0.35),
+    0 10px 24px var(--shadow);
+  color: var(--chalk);
+}
+
+.board-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.chalk-title {
+  margin: 0;
+  font-family: "Yomogi", cursive;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
+  line-height: 1.3;
+  letter-spacing: 0.05em;
+  /* チョークのにじみ */
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+}
+/* 黄色チョークの下線 */
+.chalk-title::after {
+  content: "";
+  display: block;
+  width: 70%;
+  height: 4px;
+  margin-top: 4px;
+  border-radius: 2px;
+  background: var(--chalk-yellow);
+  opacity: 0.85;
+  transform: rotate(-0.6deg);
+}
+
+.chalk-lead {
+  margin: 12px 0 0;
+  font-family: "Yomogi", cursive;
+  font-size: 1.05rem;
+  color: var(--chalk-sub);
+}
+
+/* 日付と日直（本物の黒板と同じく右端に縦書き。
+   absolute にして、見出しの高さを引き伸ばさないようにする） */
+.duty {
+  position: absolute;
+  top: 28px;
+  right: 18px;
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  font-family: "Yomogi", cursive;
+  writing-mode: vertical-rl;
+}
+.duty div { display: flex; gap: 6px; }
+.duty dt { color: var(--chalk-pink); }
+.duty dd { margin: 0; }
+
+/* 出席簿の数字 */
+.roll {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 24px 0 32px;
+  padding: 0;
+  list-style: none;
+  font-family: "Yomogi", cursive;
+  color: var(--chalk-sub);
+}
+.roll b {
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: var(--chalk-yellow);
+}
+
+/* ── 貼り紙（ゲームカード） ── */
+.board-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 36px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notice {
+  --tone: var(--chalk-yellow);
+  position: relative;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.2s;
+}
+/* マグネット */
+.notice::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: -9px;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff8 0 20%, transparent 22%), var(--tone);
+  box-shadow: 0 2px 3px var(--shadow);
+  transform: translateX(-50%);
+}
+.notice:hover,
+.notice:focus-within {
+  transform: rotate(0deg) translateY(-4px);
+}
+
+.notice-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--paper);
+  box-shadow: 0 4px 10px var(--shadow);
+  color: var(--ink);
+  text-decoration: none;
+  transition: box-shadow 0.2s;
+}
+.notice:hover .notice-link { box-shadow: 0 12px 24px var(--shadow); }
+.notice-link:focus-visible { outline: 4px solid var(--chalk-yellow); outline-offset: 4px; }
+
+/* アイコン（トミーゲームズと同じ 4:3） */
+.cover {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  background: color-mix(in srgb, var(--tone) 20%, var(--paper));
+  border-bottom: 4px solid var(--tone);
+  font-size: 4rem;
+}
+.cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.notice-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 14px 16px 16px;
+}
+.notice-title { margin: 0; font-size: 1.15rem; font-weight: 700; }
+.notice-desc { margin: 4px 0 0; color: var(--ink-sub); font-size: 0.88rem; }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.tags li {
+  padding: 1px 10px;
+  border: 1px solid color-mix(in srgb, var(--tone) 60%, transparent);
+  border-radius: 6px;
+  color: color-mix(in srgb, var(--tone) 80%, var(--ink));
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.play {
+  align-self: flex-start;
+  margin-top: auto; /* ボタンを貼り紙の下にそろえる */
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: var(--tone);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: padding 0.2s;
+}
+.notice:hover .play,
+.notice-link:focus-visible .play { padding-right: 26px; }
+
+/* 次の授業（チョークの点線の枠） */
+.next {
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+  border: 2px dashed rgba(244, 241, 232, 0.4);
+  border-radius: 4px;
+  color: var(--chalk-sub);
+  font-family: "Yomogi", cursive;
+  font-size: 1.4rem;
+  text-align: center;
+}
+.next p { margin: 0; }
+.next span { display: block; font-size: 1rem; color: var(--chalk-pink); }
+
+/* ── チョーク置き場 ── */
+.tray {
+  position: absolute;
+  left: -14px;
+  right: -14px;
+  bottom: -14px;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 22px;
+  padding: 0 40px;
+  background: var(--frame-dark);
+  box-shadow: 0 4px 6px var(--shadow);
+}
+.chalk {
+  width: 46px;
+  height: 9px;
+  margin-bottom: 7px;
+  border-radius: 3px;
+}
+.chalk.white { background: var(--chalk); }
+.chalk.pink { background: var(--chalk-pink); transform: rotate(-4deg); }
+.chalk.yellow { background: var(--chalk-yellow); width: 30px; }
+.eraser {
+  width: 64px;
+  height: 18px;
+  margin-left: auto;
+  margin-bottom: 4px;
+  border-radius: 3px;
+  /* 上がフェルト、下が持ち手 */
+  background: linear-gradient(to bottom, #3d5a87 0 55%, #c9c2b0 55%);
+}
+
+.footer {
+  margin: 28px 0 0;
+  color: var(--ink-sub);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* ── スマホ ── */
+@media (max-width: 600px) {
+  .classroom { padding: 16px 10px 28px; }
+  .blackboard { padding: 22px 16px 56px; border-width: 10px; }
+  .tray { left: -10px; right: -10px; bottom: -10px; padding: 0 20px; }
+  /* スマホでは日付・日直を横書きにして見出しの上に置く */
+  .board-head { flex-direction: column-reverse; gap: 8px; }
+  .duty { position: static; writing-mode: horizontal-tb; gap: 16px; font-size: 0.9rem; }
+}
+
+/* 動きを減らす設定の人には、傾きとアニメーションを止める */
+@media (prefers-reduced-motion: reduce) {
+  .notice, .notice:hover, .notice:focus-within { transform: none; transition: none; }
+  .notice-link, .play { transition: none; }
+}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe3d8"/>
+      <stop offset="1" stop-color="#f6b7a5"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="240" fill="url(#bg)"/>
+  <!-- 集中線のような放射 -->
+  <g stroke="#ffffff" stroke-opacity="0.45" stroke-width="10">
+    <line x1="160" y1="120" x2="160" y2="-20"/>
+    <line x1="160" y1="120" x2="330" y2="10"/>
+    <line x1="160" y1="120" x2="340" y2="200"/>
+    <line x1="160" y1="120" x2="160" y2="260"/>
+    <line x1="160" y1="120" x2="-20" y2="200"/>
+    <line x1="160" y1="120" x2="-10" y2="10"/>
+  </g>
+  <circle cx="80" cy="128" r="56" fill="#ffffff" fill-opacity="0.8"/>
+  <circle cx="240" cy="128" r="56" fill="#ffffff" fill-opacity="0.8"/>
+  <text x="80" y="150" font-size="62" text-anchor="middle">✊</text>
+  <text x="240" y="150" font-size="62" text-anchor="middle">✋</text>
+  <text x="160" y="140" font-size="40" font-weight="900" font-family="Arial Black, sans-serif"
+        text-anchor="middle" fill="#ffffff" stroke="#d04f3a" stroke-width="3" paint-order="stroke">VS</text>
+  <text x="160" y="58" font-size="34" text-anchor="middle">✌️</text>
+</svg>

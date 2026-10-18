@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>勉強用ゲームセンター</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="classroom">
+    <!-- 黒板 -->
+    <section class="blackboard">
+      <div class="board-head">
+        <div>
+          <h1 class="chalk-title">勉強用ゲームセンター</h1>
+          <p class="chalk-lead">修行で作ったゲームを貼っておく黒板です。貼り紙を押すと遊べます。</p>
+        </div>
+        <!-- 黒板の右端の、日付と日直 -->
+        <dl class="duty">
+          <div><dt>日付</dt><dd data-date></dd></div>
+          <div><dt>日直</dt><dd>kouta</dd></div>
+        </dl>
+      </div>
+
+      <ul class="roll">
+        <li>出席したゲーム <b data-stat="games">-</b> 本</li>
+        <li>身につけた技 <b data-stat="skills">-</b> つ</li>
+      </ul>
+
+      <!-- 貼り紙（games.js が中身を作る） -->
+      <ul class="board-list"></ul>
+
+      <!-- チョーク置き場 -->
+      <div class="tray" aria-hidden="true">
+        <span class="chalk white"></span>
+        <span class="chalk pink"></span>
+        <span class="chalk yellow"></span>
+        <span class="eraser"></span>
+      </div>
+    </section>
+
+    <p class="footer">知識は武器。一本ずつ、刀を鍛えていこう。</p>
+  </main>
+
+  <script src="games.js"></script>
+</body>
+</html>

@@ -108,6 +108,8 @@ body {
 .duty div { display: flex; gap: 6px; }
 .duty dt { color: var(--chalk-pink); }
 .duty dd { margin: 0; }
+/* 縦書きの中の数字・英字は横に寝てしまうので、1マスに横並びで収める（縦中横） */
+.duty .tcy { text-combine-upright: all; }
 
 /* 出席簿の数字 */
 .roll {

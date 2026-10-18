@@ -103,8 +103,17 @@ function renderStats() {
 function renderDate() {
   const today = new Date();
   const week = ["日", "月", "火", "水", "木", "金", "土"][today.getDay()];
-  document.querySelector("[data-date]").textContent =
-    `${today.getMonth() + 1}月${today.getDate()}日（${week}）`;
+  // 数字は縦書きで横に寝ないよう、縦中横（.tcy）の印を付ける
+  const number = (value) => {
+    const span = document.createElement("span");
+    span.className = "tcy";
+    span.textContent = value;
+    return span;
+  };
+  document.querySelector("[data-date]").replaceChildren(
+    number(today.getMonth() + 1), "月",
+    number(today.getDate()), `日（${week}）`,
+  );
 }
 
 function render() {
